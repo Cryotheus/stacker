@@ -1,0 +1,6 @@
+@include "base.fgd" 
+
+@PointClass base(Targetname, Parentname, Origin, Angles) iconsprite("minge_defense/editor/mdinfo_path_target.vmt") = stacker_start :
+	"Stacker gamemode point entity for indicating the start point for the first prop."
+[
+]
