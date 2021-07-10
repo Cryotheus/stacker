@@ -5,12 +5,20 @@ function GM:StackerPlayerReady(ready)
 	net.SendToServer()
 end
 
-function GM:StackerPlayerReadyUpdate(game_ready) end
-
 --net
---[[
 net.Receive("stacker_ready", function()
-	local game_ready = net.ReadBool()
+	local order = {}
+	local player_indices = {}
 	
-	hook.Run("StackerPlayerReadyUpdate", game_ready)
-end) --]]
+	repeat
+		local player_index = net.ReadUInt(8)
+		
+		table.insert(order, Entity(player_index))
+		table.insert(player_indices, player_index)
+	until not net.ReadBool()
+	
+	GAMEMODE.StackerGameOrder = order
+	GAMEMODE.StackerPlayerIndices = player_indices
+	
+	hook.Run("StackerGameStart", player_indices)
+end)

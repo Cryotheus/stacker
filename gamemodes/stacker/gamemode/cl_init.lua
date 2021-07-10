@@ -13,7 +13,7 @@ function GM:InitPostEntity()
 	
 	hook.Call("LocalPlayerInitialized", self, LocalPlayer())
 	
-	if GetGlobalBool("GMActive") then --stuffs
+	if self.StackerGameActive then --stuffs
 	else hook.Call("StackerUIScreenOpenWait", self) end
 end
 

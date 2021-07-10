@@ -5,6 +5,11 @@ local associated_colors = GM.UIColors.WaitList
 local color_background = associated_colors.Background
 local color_text_light = associated_colors.TextLight
 
+--local functions
+local function name_refresh_think(self)
+
+end
+
 --panel functions
 function PANEL:Init()
 	self:DockPadding(4, 4, 4, 4)
@@ -41,17 +46,36 @@ function PANEL:PerformLayout(width, height)
 end
 
 function PANEL:SetPlayer(ply)
-	--update name here too
-	if IsValid(ply) then
+	if IsValid(ply) then --update name here too
+		self.Player = ply
+		
+		if ply:GetName() == "unconnected" then self.Think = self.NameRefreshThink end
+		
 		self.AvatarPanel:SetPlayer(ply)
 		self.Label:SetText(hook.Run("StackerUICredationGetNameExtension", ply, true))
 		self.Label:SetTextColor(hook.Run("StackerUICredationGetNameColor", ply) or color_text_light)
-	else self.Label:SetText("invalid") end
+	else
+		self.NeedsNameRefresh = false
+		self.Player = nil
+		self.Think = nil
+		
+		self.Label:SetText("invalid")
+	end
 end
 
 function PANEL:SetReady(ready)
 	self.Ready = ready
 	self.AvatarPanel.Ready = ready
+end
+
+function PANEL:NameRefreshThink()
+	local ply = self.Player
+	
+	if IsValid(ply) then
+		if ply:Nick() == "unconnected" then return end
+		
+		self:SetPlayer(ply)
+	else self:SetPlayer() end
 end
 
 --post

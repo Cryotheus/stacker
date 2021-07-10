@@ -10,7 +10,7 @@ local color_text_dark = associated_colors.TextDark
 local color_text_light = associated_colors.TextLight
 
 --panel functions
-function PANEL:AddPlayer(ply)
+function PANEL:AddPlayer(ply, index)
 	local player_entry = vgui.Create("StackerWaitListEntry", self)
 	
 	player_entry:Dock(TOP)
@@ -18,7 +18,7 @@ function PANEL:AddPlayer(ply)
 	player_entry:SetHeight(64)
 	player_entry:SetPlayer(ply)
 	player_entry:SetReady(ply:GetNWBool("GMReady"))
-	player_entry:SetZPos(index)
+	player_entry:SetZPos(index or 1)
 	
 	self.Players[ply] = player_entry
 end
@@ -41,6 +41,11 @@ function PANEL:Init()
 			label:SetFont("DermaLarge")
 			label:SetText("WAITING FOR PLAYERS")
 			label:SetTextColor(color_text_light)
+			
+			function label:Think()
+				if GetGlobalBool("GMTimerActive") then self:SetText("STARTING IN " .. math.max(math.ceil(GetGlobalFloat("GMTimer") - CurTime()), 0))
+				else self:SetText("WAITING FOR PLAYERS") end
+			end
 		end
 		
 		function banner_panel:Paint(width, height)
@@ -52,7 +57,7 @@ function PANEL:Init()
 	end
 	
 	--player entries
-	for index, ply in ipairs(player.GetAll()) do self:AddPlayer(ply) end
+	for index, ply in ipairs(player.GetAll()) do self:AddPlayer(ply, index) end
 	
 	do --ready button
 		surface.SetFont("DermaLarge")
@@ -90,15 +95,7 @@ function PANEL:Init()
 		
 		self.ReadyButton = button
 	end
-	
-	--hook
-	hook.Add("StackerPlayerReadyUpdate", self, function(self, game_ready)
-		if game_ready then self:Remove()
-		else end
-	end)
 end
-
-function PANEL:OnRemove() hook.Remove("StackerPlayerReadyUpdate", self) end
 
 function PANEL:PerformLayout(width, height)
 	self:Center()
@@ -126,7 +123,7 @@ function PANEL:Think()
 	for index, ply in ipairs(player.GetAll()) do
 		if self.Players[ply] then continue end
 		
-		self:AddPlayer(ply)
+		self:AddPlayer(ply, index)
 	end
 end
 

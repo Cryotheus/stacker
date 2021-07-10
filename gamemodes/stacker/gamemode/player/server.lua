@@ -29,6 +29,8 @@ function GM:PlayerLoad(ply, forced)
 end
 
 function GM:PlayerSpawn(ply, transition, ...)
+	ply:SetHealth(99)
+	
 	if GetGlobalEntity("GMPlayer") == ply or self.StackerDebugSpawn then
 		ply:UnSpectate()
 		

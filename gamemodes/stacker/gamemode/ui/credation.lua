@@ -4,6 +4,11 @@
 --unlike optimod that has a credation footer, I'm going to make a special glint and role text for each developer
 --of course, I won't make them invasive
 GM.StackerDeveloperCredation = {
+	["NULL"] = { --for development only, don't actually use bots!
+		Ready = Color(0, 160, 255),
+		Role = "Bot"
+	}, 
+	
 	["STEAM_0:1:72956761"] = {
 		Color = Color(255, 190, 0), --name color
 		Glint = Color(255, 224, 96), --glint color
@@ -34,6 +39,8 @@ end
 function GM:StackerUICredationGetNameExtension(ply, concatenate)
 	local steam_id = ply:SteamID()
 	local thanks = self.StackerDeveloperCredation[steam_id]
+	
+	print(ply, steam_id, thanks)
 	
 	if thanks then
 		if concatenate then

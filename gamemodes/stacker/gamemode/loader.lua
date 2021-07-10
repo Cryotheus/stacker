@@ -1,9 +1,14 @@
 --Cryotheum#4096
---
+--https://github.com/Cryotheus/preconfigured_loader
 local config = {
 	cl_init = 4,	--0 100
 	loader = 4,		--0 100
 	shared = 4,		--0 100
+	
+	game = {
+		client = 61,	--111 101
+		server = 58		--111 010
+	},
 	
 	language = {
 		client = 13,	--1 101
@@ -11,6 +16,7 @@ local config = {
 	},
 	
 	panel = {
+		player_order = 13,		--1 101
 		screen = 13,			--1 101
 		wait_list = 13,			--1 101
 		wait_list_avatar = 13,	--1 101
@@ -18,17 +24,17 @@ local config = {
 	},
 	
 	player = {
-		client = 29,		--11 101
-		fall_bounce = 26,	--11 010
-		shared = 23,		--10 111
-		server = 26,		--11 010
-		wind = 29,			--11 101
+		client = 29,		--011 101
+		fall_bounce = 26,	--011 010
+		shared = 23,		--010 111
+		server = 26,		--011 010
+		wind = 29,			--011 101
 		
 		meta = {},
 		
 		ready = {
-			client = 29,	--11 101
-			server = 26		--11 010
+			client = 45,	--101 101
+			server = 42		--101 010
 		}
 	},
 	
@@ -37,6 +43,11 @@ local config = {
 	prop = {
 		client = 29,	--11 101
 		shared = 23,	--10 111
+		server = 26		--11 010
+	},
+	
+	timer = {
+		--client = 29,	--11 101
 		server = 26		--11 010
 	},
 	

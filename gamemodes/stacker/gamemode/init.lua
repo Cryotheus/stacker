@@ -5,7 +5,6 @@ include("shared.lua")
 resource.AddSingleFile("resource/localization/en/stacker_gamemode.properties")
 
 --net globals
-SetGlobalBool("GMActive", false)
 SetGlobalBool("GMBuilding", false)
 
 --hooks
