@@ -5,7 +5,7 @@
 --of course, I won't make them invasive
 GM.StackerDeveloperCredation = {
 	["NULL"] = { --for development only, don't actually use bots!
-		Ready = Color(0, 160, 255),
+		Ready = Color(162, 227, 232), --god loves infantry
 		Role = "Bot"
 	}, 
 	

@@ -7,7 +7,8 @@ local config = {
 	
 	game = {
 		client = 61,	--111 101
-		server = 58		--111 010
+		server = 58,	--111 010
+		shared = 63		--111 111
 	},
 	
 	language = {

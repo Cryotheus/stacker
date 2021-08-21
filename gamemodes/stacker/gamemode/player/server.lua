@@ -29,12 +29,29 @@ function GM:PlayerLoad(ply, forced)
 end
 
 function GM:PlayerSpawn(ply, transition, ...)
-	ply:SetHealth(99)
+	ply:SetHealth(ply:IsBot() and 99 or 100)
 	
-	if GetGlobalEntity("GMPlayer") == ply or self.StackerDebugSpawn then
+	if GetGlobalBool("GMBuilding") then
+		if GetGlobalEntity("GMPlayer") == ply or self.StackerDebugSpawn then
+			ply:UnSpectate()
+			
+			
+			ply:SetTeam(TEAM_BUILDER)
+			ply:SetupHands()
+			
+			player_manager.OnPlayerSpawn(ply, transiton)
+			player_manager.RunClass(ply, "Spawn")
+			
+			hook.Call("PlayerLoadout", self, ply) --do loadout even if transition, there won't be transitions with these maps
+			hook.Call("PlayerSetModel", self, ply)
+			
+			ply:CrosshairEnable()
+		else hook.Call("PlayerSpawnAsSpectator", self, ply) end
+	else
 		ply:UnSpectate()
 		
-		ply:SetTeam(TEAM_UNASSIGNED)
+		ply:CrosshairDisable()
+		ply:SetTeam(TEAM_PARKOURIST)
 		ply:SetupHands()
 		
 		player_manager.OnPlayerSpawn(ply, transiton)
@@ -42,10 +59,7 @@ function GM:PlayerSpawn(ply, transition, ...)
 		
 		hook.Call("PlayerLoadout", self, ply) --do loadout even if transition, there won't be transitions with these maps
 		hook.Call("PlayerSetModel", self, ply)
-		
-		if GetGlobalBool("GMBuilding") then ply:CrosshairEnable()
-		else ply:CrosshairDisable() end
-	else hook.Call("PlayerSpawnAsSpectator", self, ply) end
+	end
 end
 
 function GM:PlayerSpawnAsSpectator(ply)
